@@ -20,7 +20,7 @@ final class ViewController: UIViewController {
                 let data, // let data = data
 //                let response,
                 error == nil
-                else { //если есть что-то в error то выходим
+                else { //если есть что-то в error то  выходим
                 return
             }
             let decoder = JSONDecoder()

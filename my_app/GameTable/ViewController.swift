@@ -6,51 +6,36 @@
 //
 
 import UIKit
+import Foundation
 
-final class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GameData.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard indexPath.row < GameData.count else {
-            return UITableViewCell()
-        }
-        
-        let game = GameData[indexPath.row]
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        cell.textLabel?.text = game.title
-        cell.detailTextLabel?.text = game.short_description
-        return cell
-    }
-    
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView() // разные tableView
-        tableView.backgroundColor = .cyan
-        tableView.dataSource = self
-        return tableView
+final class GameTableViewController: UIViewController {
+    private lazy var contentView: GameTableView = {
+        let view = GameTableView()
+        return view
     }()
     
-    private var GameData: [GameDTO] = []
+    private let service: GameServicing
+
+    init(service: GameServicing) {
+        self.service = service
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        view = contentView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemPurple
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([ // вёрстка
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor), // учитывать камеру итд
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        
-        
+
+        service.fetchGame { [self] games in
+            DispatchQueue.main.async {
+                self.contentView.configure(with: games)
+            }
+        }
     }
-    
-    
 }
-
-

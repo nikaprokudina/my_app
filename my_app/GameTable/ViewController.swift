@@ -46,32 +46,11 @@ final class ViewController: UIViewController, UITableViewDataSource, UITableView
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        let url = URL(string: "https://www.freetogame.com/api/games?platform=pc" )! // ура плохой способ (может вернуть nil, но нам пофиг)
-        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-            guard error == nil, let data = data else {
-                return
-            }
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            ///обработка данных
-            self.GameData = try! decoder.decode([GameDTO].self, from: data)
-            DispatchQueue.main.async { // сахар, а так можно некрасиво: DispatchQueue.main.async(execute: {}
-                self.tableView.reloadData()
-            }
-        }).resume()
+        
         
     }
     
-    struct GameDTO: Decodable {
-        let id: Int
-        let title: String
-        let short_description: String?
-        let thumbnail: URL? //картинка
-
-        enum CodingKeys: String, CodingKey {
-            case id, title, short_description, thumbnail = "image_url"
-        }
-    }
+    
 }
 
 

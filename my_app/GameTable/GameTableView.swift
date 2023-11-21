@@ -8,21 +8,27 @@
 import Foundation
 import UIKit
 
+protocol GameTableViewDelegate {
+    func didSelectRow(_ game: GameDTO)
+}
+
 final class GameTableView: UIView, UITableViewDataSource { // Change inheritance to UIView and add UITableViewDataSource
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView() // разные tableView
         tableView.dataSource = tableManager // Make sure to conform to UITableViewDataSource
+        tableView.delegate = tableManager
         return tableView
     }()
     
     private lazy var spinnerView = UIActivityIndicatorView(style: .large)
-    
     private lazy var tableManager = GameTableManager()
+    var delegate: GameTableViewDelegate? //делегат
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
+        tableManager.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -50,6 +56,13 @@ final class GameTableView: UIView, UITableViewDataSource { // Change inheritance
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
+    }
+}
+
+//реализация делегата
+extension GameTableView: GameTableManagerDelegate {
+    func didSelectRow(_ gameModel: GameDTO) {
+        print("didSelectRow")
     }
 }
 

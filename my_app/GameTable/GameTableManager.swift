@@ -8,7 +8,13 @@
 import Foundation
 import UIKit
 
+// MARK: - BeerTableManagerDelegate
+protocol BeerTableManagerDelegate: AnyObject {
+    func didSelectRow(_ beerModel: BeerDTO)
+}
+
 final class GameTableManager: NSObject{
+     var delegate: BeerTableManagerDelegate? //делегат
     var tableData: [GameDTO] = []
 }
 
@@ -32,7 +38,15 @@ extension GameTableManager: UITableViewDataSource{
         cell.contentConfiguration = configuration
         return cell
     }
+}
 
+//расширение
+extension GameTableManager: UITableViewDelegate{
+    //в момент нажатия на таблицу
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true) //анимация тап
+        let game = tableData[indexPath.row]
+        delegate?.didSelectRow(game)
+    }
     
-   
 }

@@ -11,6 +11,7 @@ import Foundation
 final class GameTableViewController: UIViewController {
     private lazy var contentView: GameTableView = {
         let view = GameTableView()
+        view.delegate = self
         return view
     }()
     
@@ -37,5 +38,12 @@ final class GameTableViewController: UIViewController {
                 self.contentView.configure(with: games)
             }
         }
+    }
+}
+
+extension GameTableViewController: GameTableViewDelegate {
+    func didSelectRow(_ game: GameDTO) {
+        let controller = GameDetailViewController(game: game)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

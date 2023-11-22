@@ -8,13 +8,13 @@
 import Foundation
 import UIKit
 
-// MARK: - BeerTableManagerDelegate
-protocol BeerTableManagerDelegate: AnyObject {
-    func didSelectRow(_ beerModel: BeerDTO)
+// MARK: - GameTableManagerDelegate
+protocol GameTableManagerDelegate: AnyObject {
+    func didSelectRow(_ gameModel: GameDTO)
 }
 
 final class GameTableManager: NSObject{
-     var delegate: BeerTableManagerDelegate? //делегат
+     var delegate: GameTableManagerDelegate? //делегат
     var tableData: [GameDTO] = []
 }
 

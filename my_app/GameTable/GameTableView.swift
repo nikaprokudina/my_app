@@ -62,7 +62,7 @@ final class GameTableView: UIView, UITableViewDataSource { // Change inheritance
 //реализация делегата
 extension GameTableView: GameTableManagerDelegate {
     func didSelectRow(_ gameModel: GameDTO) {
-        print("didSelectRow")
+        delegate?.didSelectRow(gameModel)
     }
 }
 

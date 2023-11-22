@@ -42,8 +42,9 @@ final class GameTableViewController: UIViewController {
 }
 
 extension GameTableViewController: GameTableViewDelegate {
-    func didSelectRow(_ game: GameDTO) {
-        let controller = GameDetailViewController(game: game)
-        navigationController?.pushViewController(controller, animated: true)
+    func didSelectRow(_ gameModel: GameDTO) {
+        let vc = GameDetailViewController()
+        vc.gameModel = gameModel
+        present(GameDetailViewController(), animated: true)
     }
 }

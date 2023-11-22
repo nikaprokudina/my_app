@@ -15,7 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return } //return if nil
         let window = UIWindow(windowScene: windowScene)
-        let viewcontroller = ViewController()
+        let factory = GameTableViewControllerFactory()
+        let viewcontroller = factory.build()
         window.rootViewController = viewcontroller
         window.makeKeyAndVisible()
         self.window = window
